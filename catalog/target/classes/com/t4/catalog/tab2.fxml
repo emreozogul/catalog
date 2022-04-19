@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane fx:id="tab2Anchor" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.t4.catalog.Tab2Controller">
+   <children>
+      <AnchorPane prefHeight="619.0" prefWidth="752.0">
+         <children>
+            <ButtonBar layoutX="387.0" layoutY="566.0" prefHeight="53.0" prefWidth="323.0">
+              <buttons>
+                <Button fx:id="saveButton" mnemonicParsing="false" onAction="#saveButton" text="Save" />
+                  <Button fx:id="clearButton" mnemonicParsing="false" onAction="#clearButton" text="Clear" />
+                  <Button fx:id="deleteButton" layoutX="258.0" layoutY="24.0" mnemonicParsing="false" onAction="#deleteButton" text="Delete" />
+                  <Button mnemonicParsing="false" onAction="#editButton" text="Edit" />
+              </buttons>
+            </ButtonBar>
+            <ButtonBar layoutX="500.0" layoutY="7.0" prefHeight="40.0" prefWidth="200.0" />
+            <TableView fx:id="tableView" layoutX="292.0" layoutY="8.0" prefHeight="563.0" prefWidth="460.0">
+              <columns>
+                <TableColumn fx:id="attributeColumn" prefWidth="75.0" text="Field Name" />
+                <TableColumn fx:id="valueColumn" prefWidth="75.0" text="Field Value" />
+              </columns>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
+            </TableView>
+            <TextField fx:id="attTF" layoutX="13.0" layoutY="193.0" prefHeight="25.0" prefWidth="223.0" />
+            <TextField fx:id="valTF" layoutX="13.0" layoutY="264.0" prefHeight="25.0" prefWidth="223.0" />
+            <Label layoutX="14.0" layoutY="153.0" text="Attribute">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="10.0" layoutY="227.0" prefHeight="27.0" prefWidth="74.0" text="Value">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Button fx:id="addButton" layoutX="173.0" layoutY="310.0" mnemonicParsing="false" onAction="#addButton" prefHeight="25.0" prefWidth="61.0" text="Add" />
+          <Button fx:id="prevButton" layoutX="14.0" layoutY="580.0" mnemonicParsing="false" onAction="#prevButton" text="Previous" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
