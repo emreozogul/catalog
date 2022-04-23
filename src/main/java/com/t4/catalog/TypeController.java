@@ -2,10 +2,7 @@ package com.t4.catalog;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
@@ -18,6 +15,8 @@ public class TypeController implements Initializable {
 
 
     private MainController mainController ;
+
+
 
     @FXML private TextField nameTF;
     @FXML private TextField typeTF;

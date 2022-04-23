@@ -97,8 +97,8 @@
                         <TreeView fx:id="treeView" layoutY="49.0" prefHeight="434.0" prefWidth="435.0" />
                         <ButtonBar layoutX="548.0" layoutY="602.0" prefHeight="41.0" prefWidth="200.0">
                           <buttons>
-                            <Button mnemonicParsing="false" text="Edit" />
-                              <Button mnemonicParsing="false" text="Delete" />
+                            <Button mnemonicParsing="false" text="Edit" fx:id="editButton"/>
+                              <Button mnemonicParsing="false" text="Delete" fx:id="deleteButton" />
                           </buttons>
                         </ButtonBar>
                         <TableView fx:id="tableView" layoutX="442.0" layoutY="3.0" prefHeight="588.0" prefWidth="307.0">

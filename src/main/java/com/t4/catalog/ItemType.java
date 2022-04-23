@@ -8,6 +8,9 @@ public class ItemType extends TreeItem<String> {
 
     private String name;
 
+    public ArrayList<Item> getItems() {
+        return items;
+    }
 
     private ArrayList<String> attributesName = new ArrayList<String>();
 

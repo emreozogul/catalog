@@ -30,6 +30,8 @@ public class MainController implements Initializable {
     private ArrayList<String> itemTypesName= new ArrayList<>();
     private ArrayList<ItemType> itemTypes = new ArrayList<>();
 
+    @FXML private Button editButton;
+    @FXML private Button deleteButton;
     @FXML private BorderPane mainBorder ;
     @FXML private TreeView<String> treeView ;
     @FXML private TableColumn<Attribute,String> attributeNameColumn;
@@ -134,6 +136,8 @@ public class MainController implements Initializable {
             }
         }
         );
+        deleteButton.setOnAction(actionEvent -> onDelete());
+
 
 
 
@@ -175,6 +179,16 @@ public class MainController implements Initializable {
 
 
     }
+
+    public void onDelete(){
+        ItemType selectedItem = (ItemType) treeView.getSelectionModel().getSelectedItem();
+        if (selectedItem.isLeaf()) {
+
+        } else {
+     treeView.getRoot().getChildren().remove(selectedItem);
+            }
+        }
+
 
     public void init(TypeController typeController){
         this.typeController= typeController;

@@ -55,7 +55,6 @@
                               <Button layoutX="306.0" layoutY="60.0" mnemonicParsing="false" onAction="#newTypeButton" prefHeight="26.0" prefWidth="25.0" text="+" />
                               <TextField fx:id="addNameTF" layoutX="77.0" layoutY="101.0" prefHeight="26.0" prefWidth="299.0" />
                               <TextField fx:id="addTagsTF" layoutX="77.0" layoutY="139.0" prefHeight="26.0" prefWidth="299.0" />
-                              <TextArea fx:id="addDesc" layoutX="16.0" layoutY="243.0" prefHeight="355.0" prefWidth="359.0" />
                               <TableView fx:id="addTableView" layoutX="431.0" layoutY="14.0" prefHeight="576.0" prefWidth="310.0">
                                 <columns>
                                   <TableColumn fx:id="addNameColumn" prefWidth="75.0" text="Name" />
@@ -71,11 +70,6 @@
                                     <Button mnemonicParsing="false" onAction="#saveButton" text="Save" />
                                 </buttons>
                               </ButtonBar>
-                              <Label layoutX="16.0" layoutY="188.0" prefHeight="27.0" prefWidth="122.0" text="Description">
-                                 <font>
-                                    <Font name="System Bold" size="18.0" />
-                                 </font>
-                              </Label>
                               <Label layoutX="14.0" layoutY="59.0" text="Type">
                                  <font>
                                     <Font name="System Bold" size="18.0" />
@@ -100,15 +94,14 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TreeView fx:id="treeView" layoutX="-2.0" layoutY="3.0" prefHeight="616.0" prefWidth="370.0" />
-                        <ButtonBar layoutX="248.0" layoutY="617.0" prefHeight="41.0" prefWidth="200.0">
+                        <TreeView fx:id="treeView" layoutY="49.0" prefHeight="434.0" prefWidth="435.0" />
+                        <ButtonBar layoutX="548.0" layoutY="602.0" prefHeight="41.0" prefWidth="200.0">
                           <buttons>
-                            <Button mnemonicParsing="false" text="Edit" />
-                              <Button mnemonicParsing="false" text="Delete" />
-                              <Button mnemonicParsing="false" text="Info" />
+                            <Button mnemonicParsing="false" text="Edit" fx:id="editButton"/>
+                              <Button mnemonicParsing="false" text="Delete" fx:id="deleteButton" />
                           </buttons>
                         </ButtonBar>
-                        <TableView fx:id="tableView" layoutX="442.0" layoutY="3.0" prefHeight="615.0" prefWidth="307.0">
+                        <TableView fx:id="tableView" layoutX="442.0" layoutY="3.0" prefHeight="588.0" prefWidth="307.0">
                           <columns>
                             <TableColumn fx:id="attributeNameColumn" prefWidth="75.0" text="Attribute" />
                             <TableColumn fx:id="attributeValueColumn" prefWidth="75.0" text="Value" />
@@ -117,6 +110,7 @@
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                            </columnResizePolicy>
                         </TableView>
+                        <TextArea layoutX="12.0" layoutY="506.0" prefHeight="138.0" prefWidth="422.0" />
                      </children></AnchorPane>
             </content>
           </Tab>
