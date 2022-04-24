@@ -1,6 +1,9 @@
 package com.t4.catalog;
 
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -43,6 +46,10 @@ public class MainController implements Initializable {
     @FXML private TableColumn<Attribute,String> addValueColumn ;
     @FXML private ChoiceBox<String> choiceBox;
     @FXML private TableView<Attribute> addTableView ;
+
+    @FXML
+    private TextField TextField;
+
 
 
     public ArrayList<ItemType> getItemTypes() {
@@ -110,9 +117,28 @@ public class MainController implements Initializable {
 
         addNameColumn.setCellValueFactory(new PropertyValueFactory<>("attributeName"));
         addValueColumn.setCellValueFactory(new PropertyValueFactory<>("attributeValue"));
-        
+
+        tableView.setEditable(true);
+        attributeValueColumn.setEditable(true);
+
+        attributeValueColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
 
+        attributeValueColumn.setOnEditCommit(event -> {
+            new EventHandler<TableColumn.CellEditEvent<Attribute, String>>() {
+                @Override
+                public void handle(TableColumn.CellEditEvent<Attribute, String> t) {
+
+                    String a = t.getNewValue();
+                    t.getRowValue().setAttributeValue(a);
+
+
+
+                }
+            };
+
+
+        });
         choiceBox.setOnAction(event -> {
             if(choiceBox.getItems().size()>0) {
                 String selectedItem = choiceBox.getSelectionModel().getSelectedItem();
@@ -136,7 +162,7 @@ public class MainController implements Initializable {
             }
         }
         );
-        deleteButton.setOnAction(actionEvent -> onDelete());
+     //   deleteButton.setOnAction(actionEvent -> onDelete());
 
 
 
@@ -168,6 +194,7 @@ public class MainController implements Initializable {
                 for (int i = 0; i < item.getAttributes().size(); i++) {
                     tableView.getItems().add(item.getAttributes().get(i));
                 }
+                TextField.setText(item.getName());
                 tableView.refresh();
         }});
 
@@ -180,15 +207,15 @@ public class MainController implements Initializable {
 
     }
 
-    public void onDelete(){
-        ItemType selectedItem = (ItemType) treeView.getSelectionModel().getSelectedItem();
+   /* public void onDelete(){
+        TreeItem<String> selectedItem =treeView.getSelectionModel().getSelectedItem();
         if (selectedItem.isLeaf()) {
 
         } else {
      treeView.getRoot().getChildren().remove(selectedItem);
             }
         }
-
+*/
 
     public void init(TypeController typeController){
         this.typeController= typeController;
@@ -285,7 +312,40 @@ public class MainController implements Initializable {
             System.out.println("name :"+attribute.getAttributeName()+" value :"+attribute.getAttributeValue());
         }
     }
+    @FXML
+    void deleteButtonClicked(ActionEvent event) {
 
+        //Removes the selected Item
+        TreeItem<String> t =treeView.getSelectionModel().getSelectedItem();
+
+        t.getParent().getChildren().remove(t);
+
+
+    }
+    @FXML
+    void editButtonClicked(ActionEvent event) {
+
+        int index = treeView.getSelectionModel().getSelectedIndex();
+
+        TreeItem<String> t =treeView.getSelectionModel().getSelectedItem();
+
+        Item i = (Item) t;
+
+        String name = i.getName();
+
+        //Take input from textfield for a new name value
+        i.setName(TextField.getText());
+
+        //Updates name of the Item
+        treeView.getTreeItem(index).setValue(TextField.getText());
+        treeView.refresh();
+
+        ArrayList<Attribute> listOfAttributes = i.getAttributes();
+        ObservableList<Attribute> list = FXCollections.observableArrayList(listOfAttributes);
+
+
+        tableView.refresh();
+    }
 
 
 

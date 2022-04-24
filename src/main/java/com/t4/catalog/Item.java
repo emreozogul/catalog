@@ -9,7 +9,7 @@ public class Item  extends TreeItem<String> {
 
 
     private String tag;
-    private final String name;
+    private String name;
 
     private ItemType folder;
     private ArrayList<Attribute> attributes;
@@ -69,7 +69,7 @@ public class Item  extends TreeItem<String> {
 
     @Override
     public String toString() {
-        return "Item{" +
+        return "Item{" + name +
                 ", tag='" + tag + '\'' +
                 ", folder=" + folder +
                 ", attributes=" + attributes +
@@ -86,5 +86,12 @@ public class Item  extends TreeItem<String> {
         return attributes;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public ArrayList<String> getAttributesValues() {
+        return attributesValues;
+    }
 }
 
