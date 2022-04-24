@@ -3,6 +3,7 @@ package com.t4.catalog;
 import javafx.scene.control.TreeItem;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ItemType extends TreeItem<String> {
 
@@ -30,10 +31,17 @@ public class ItemType extends TreeItem<String> {
     }
 
     public void setName(String name) {
+        setValue(name );
         this.name = name;
     }
 
     public ArrayList<String> getAttributesName() {
         return attributesName;
+    }
+
+    public void setAttributesName(ArrayList<String> attributesName) {
+
+
+        this.attributesName = attributesName;
     }
 }

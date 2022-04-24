@@ -16,10 +16,12 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
@@ -165,6 +167,9 @@ public class MainController implements Initializable {
      //   deleteButton.setOnAction(actionEvent -> onDelete());
 
 
+        editButton.setOnAction(actionEvent -> onEdit());
+
+
 
 
         addTableView.setEditable(true);
@@ -206,6 +211,62 @@ public class MainController implements Initializable {
 
 
     }
+
+    public void onEdit(){
+        ItemType selectedItem = (ItemType) treeView.getSelectionModel().getSelectedItem();
+
+
+        Dialog<Void> dialog = new Dialog<>();
+        DialogPane pane = new DialogPane();
+        pane.getButtonTypes().addAll(ButtonType.OK);
+        dialog.setDialogPane(pane);
+        GridPane content = new GridPane();
+        pane.setContent(content);
+        content.add(new Label("name"), 0, 0);
+        TextField name = new TextField();
+        content.add(name, 1, 0);
+        List<TextField> textFields = new ArrayList<>();
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+
+
+            dialog.setTitle("edit type");
+
+
+
+                name.setText(selectedItem.getName());
+
+                for (int i = 0; i < selectedItem.getAttributesName().size(); i++) {
+                    textFields.add(new TextField(selectedItem.getAttributesName().get(i)));
+                }
+
+                for (int i = 0; i < textFields.size(); i++) {
+                    content.add(new Label("field type " + (i + 1)), 0, i + 2);
+                    content.add(textFields.get(i), 1, i + 2);
+                }
+                dialog.showAndWait();
+
+
+                    selectedItem.setName(name.getText());
+                    ArrayList<String> fieldTypes = new ArrayList<>();
+
+                    for (TextField f : textFields) {
+                        fieldTypes.add(f.getText());
+                    }
+                    selectedItem.setAttributesName(fieldTypes);
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+
 
    /* public void onDelete(){
         TreeItem<String> selectedItem =treeView.getSelectionModel().getSelectedItem();
