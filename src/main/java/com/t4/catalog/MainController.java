@@ -53,11 +53,12 @@ public class MainController implements Initializable {
     @FXML private TableColumn<Attribute,String> addValueColumn ;
     @FXML private ChoiceBox<String> choiceBox;
     @FXML private TableView<Attribute> addTableView ;
+    @FXML ChoiceBox<String> choiceBoxTags;
 
     @FXML
     private TextField TextField;
 
-    @FXML ChoiceBox<String> choiceBoxTags;
+
     @FXML private TextField displayTagsTF;
 
 
