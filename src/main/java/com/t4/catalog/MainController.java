@@ -35,6 +35,9 @@ public class MainController implements Initializable {
     private ArrayList<String> itemTypesName= new ArrayList<>();
     private ArrayList<ItemType> itemTypes = new ArrayList<>();
 
+    @FXML
+    private Button editItemName;
+
     @FXML private Button editButton;
     @FXML private Button deleteButton;
     @FXML private BorderPane mainBorder ;
@@ -131,9 +134,11 @@ public class MainController implements Initializable {
                 @Override
                 public void handle(TableColumn.CellEditEvent<Attribute, String> t) {
 
-                    String a = t.getNewValue();
-                    t.getRowValue().setAttributeValue(a);
+                    Attribute  attribute = tableView.getSelectionModel().getSelectedItem();
 
+                    Item i = (Item) treeView.getSelectionModel().getSelectedItem();
+                    i.getAttributes().set(tableView.getSelectionModel().getSelectedIndex(),attribute);
+                    tableView.refresh();
 
 
                 }
@@ -165,9 +170,6 @@ public class MainController implements Initializable {
         }
         );
      //   deleteButton.setOnAction(actionEvent -> onDelete());
-
-
-        editButton.setOnAction(actionEvent -> onEdit());
 
 
 
@@ -211,50 +213,6 @@ public class MainController implements Initializable {
 
 
     }
-
-    public void onEdit(){
-        ItemType selectedItem = (ItemType) treeView.getSelectionModel().getSelectedItem();
-
-
-        Dialog<Void> dialog = new Dialog<>();
-        DialogPane pane = new DialogPane();
-        pane.getButtonTypes().addAll(ButtonType.OK);
-        dialog.setDialogPane(pane);
-        GridPane content = new GridPane();
-        pane.setContent(content);
-        content.add(new Label("name"), 0, 0);
-        TextField name = new TextField();
-        content.add(name, 1, 0);
-        List<TextField> textFields = new ArrayList<>();
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-
-
-            dialog.setTitle("edit type");
-
-
-
-                name.setText(selectedItem.getName());
-
-                for (int i = 0; i < selectedItem.getAttributesName().size(); i++) {
-                    textFields.add(new TextField(selectedItem.getAttributesName().get(i)));
-                }
-
-                for (int i = 0; i < textFields.size(); i++) {
-                    content.add(new Label("field type " + (i + 1)), 0, i + 2);
-                    content.add(textFields.get(i), 1, i + 2);
-                }
-                dialog.showAndWait();
-
-
-                    selectedItem.setName(name.getText());
-                    ArrayList<String> fieldTypes = new ArrayList<>();
-
-                    for (TextField f : textFields) {
-                        fieldTypes.add(f.getText());
-                    }
-                    selectedItem.setAttributesName(fieldTypes);
-
-            }
 
 
 
@@ -385,7 +343,52 @@ public class MainController implements Initializable {
     }
     @FXML
     void editButtonClicked(ActionEvent event) {
+        // Hümay's method
+        ItemType selectedItem = (ItemType) treeView.getSelectionModel().getSelectedItem();
 
+
+        Dialog<Void> dialog = new Dialog<>();
+        DialogPane pane = new DialogPane();
+        pane.getButtonTypes().addAll(ButtonType.OK);
+        dialog.setDialogPane(pane);
+        GridPane content = new GridPane();
+        pane.setContent(content);
+        content.add(new Label("name"), 0, 0);
+        TextField name = new TextField();
+        content.add(name, 1, 0);
+        List<TextField> textFields = new ArrayList<>();
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+
+
+        dialog.setTitle("edit type");
+
+
+
+        name.setText(selectedItem.getName());
+
+        for (int i = 0; i < selectedItem.getAttributesName().size(); i++) {
+            textFields.add(new TextField(selectedItem.getAttributesName().get(i)));
+        }
+
+        for (int i = 0; i < textFields.size(); i++) {
+            content.add(new Label("field type " + (i + 1)), 0, i + 2);
+            content.add(textFields.get(i), 1, i + 2);
+        }
+        dialog.showAndWait();
+
+
+        selectedItem.setName(name.getText());
+        ArrayList<String> fieldTypes = new ArrayList<>();
+
+        for (TextField f : textFields) {
+            fieldTypes.add(f.getText());
+        }
+        selectedItem.setAttributesName(fieldTypes);
+
+
+    }
+    @FXML
+    void editItemNameButtonClicked(ActionEvent event) {
         int index = treeView.getSelectionModel().getSelectedIndex();
 
         TreeItem<String> t =treeView.getSelectionModel().getSelectedItem();
@@ -400,9 +403,6 @@ public class MainController implements Initializable {
         //Updates name of the Item
         treeView.getTreeItem(index).setValue(TextField.getText());
         treeView.refresh();
-
-        ArrayList<Attribute> listOfAttributes = i.getAttributes();
-        ObservableList<Attribute> list = FXCollections.observableArrayList(listOfAttributes);
 
 
         tableView.refresh();

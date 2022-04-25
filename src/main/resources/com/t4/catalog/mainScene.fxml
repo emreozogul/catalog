@@ -113,6 +113,7 @@
                                 <TextArea layoutX="12.0" layoutY="506.0" prefHeight="138.0" prefWidth="422.0" />
                                 <TextField fx:id="TextField" layoutX="286.0" layoutY="14.0" />
                                 <Label layoutX="155.0" layoutY="18.0" prefHeight="18.0" prefWidth="114.0" text="Edit Item Name :" />
+                        <Button fx:id="editItemName" layoutX="474.0" layoutY="610.0" mnemonicParsing="false" onAction="#editItemNameButtonClicked" prefHeight="26.0" prefWidth="102.0" text="Edit Item Name" />
                             </children></AnchorPane>
                     </content>
                 </Tab>
