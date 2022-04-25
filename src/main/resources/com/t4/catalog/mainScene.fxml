@@ -100,7 +100,7 @@
                                 <TreeView fx:id="treeView" layoutY="49.0" prefHeight="434.0" prefWidth="435.0" />
                                 <ButtonBar layoutX="548.0" layoutY="602.0" prefHeight="41.0" prefWidth="200.0">
                                     <buttons>
-                                        <Button fx:id="editButton" mnemonicParsing="false" onAction="#editButtonClicked" text="Edit" />
+                                        <Button fx:id="editButton" mnemonicParsing="false" onAction="#editButtonClicked" text="Edit Type" />
                                         <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#deleteButtonClicked" text="Delete" />
                                     </buttons>
                                 </ButtonBar>
@@ -115,7 +115,7 @@
                                 </TableView>
                                 <TextArea layoutX="12.0" layoutY="506.0" prefHeight="138.0" prefWidth="422.0" />
                                 <TextField fx:id="TextField" layoutX="286.0" layoutY="14.0" />
-                                <Label layoutX="155.0" layoutY="18.0" prefHeight="18.0" prefWidth="114.0" text="Edit Item Name :" />
+                                <Label layoutX="67.0" layoutY="13.0" prefHeight="26.0" prefWidth="207.0" text="Edit Item Name by double clicking :" />
                         <Button fx:id="editItemName" layoutX="474.0" layoutY="610.0" mnemonicParsing="false" onAction="#editItemNameButtonClicked" prefHeight="26.0" prefWidth="102.0" text="Edit Item Name" />
                             </children></AnchorPane>
                     </content>
