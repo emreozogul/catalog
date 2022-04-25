@@ -7,5 +7,9 @@
       </list>
     </option>
   </component>
+  <component name="ProjectResources">
+    <resource url="http://javafx.com/fxml/1" location="$PROJECT_DIR$/pom.xml" />
+    <resource url="http://javafx.com/javafx/17" location="$PROJECT_DIR$/src/main/java/module-info.java" />
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="openjdk-17" project-jdk-type="JavaSDK" />
 </project>

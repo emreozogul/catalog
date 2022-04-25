@@ -35,6 +35,8 @@ public class MainController implements Initializable {
     private ArrayList<String> itemTypesName= new ArrayList<>();
     private ArrayList<ItemType> itemTypes = new ArrayList<>();
 
+    private ArrayList<String> itemTagName=new ArrayList<>();
+
     @FXML
     private Button editItemName;
 
@@ -54,6 +56,10 @@ public class MainController implements Initializable {
 
     @FXML
     private TextField TextField;
+
+    @FXML ChoiceBox<String> choiceBoxTags;
+    @FXML private TextField displayTagsTF;
+
 
 
 
@@ -98,8 +104,35 @@ public class MainController implements Initializable {
         return choiceBox;
     }
 
+    public ChoiceBox<String> getChoiceBoxTags(){return choiceBoxTags;}
 
-    
+    public ArrayList<String> getItemTagName(){return itemTagName;}
+
+
+    @FXML
+    public void addTagButton(){
+        String name = addTagsTF.getText();
+        for (int i = 0; i <getItemTagName().size() ; i++) {
+            if(getItemTagName().get(i).equals(name)){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Tag already exists");
+                alert.setContentText("Please enter a different tag name");
+                alert.showAndWait();
+                return;
+            }
+        }
+        getItemTagName().add(name);
+
+        for (int i = 0; i <tableView.getItems().size() ; i++) {
+            itemTagName.add(tableView.getItems().get(i).getAttributeName());
+        }
+
+        getChoiceBoxTags().getItems().add(name);
+    }
+
+
+
 
 
 
@@ -169,7 +202,35 @@ public class MainController implements Initializable {
             }
         }
         );
-     //   deleteButton.setOnAction(actionEvent -> onDelete());
+
+        choiceBoxTags.setOnAction(event -> {
+
+                    if(choiceBoxTags.getItems().size()>0) {
+                        String selectedTags = choiceBoxTags.getSelectionModel().getSelectedItem();
+                        //itemTagName = null;
+
+                        for (int i = 0; i < itemTagName.size() ; i++) {
+                            if(choiceBoxTags.getSelectionModel().getSelectedItem().equals(selectedTags)){
+                                selectedTags=choiceBoxTags.getSelectionModel().getSelectedItem();
+                            }
+
+
+
+                        }
+
+
+                        displayTagsTF.setEditable(false);
+                        displayTagsTF.setText(String.valueOf(itemTagName));
+
+                    }
+                }
+        );
+
+
+
+
+
+        //   deleteButton.setOnAction(actionEvent -> onDelete());
 
 
 
