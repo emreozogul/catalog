@@ -53,8 +53,8 @@
                                     <children>
                                         <ChoiceBox fx:id="choiceBox" layoutX="77.0" layoutY="60.0" prefHeight="26.0" prefWidth="219.0" />
                                         <Button layoutX="306.0" layoutY="60.0" mnemonicParsing="false" onAction="#newTypeButton" prefHeight="26.0" prefWidth="25.0" text="+" />
-                                        <TextField fx:id="addNameTF" layoutX="77.0" layoutY="101.0" prefHeight="26.0" prefWidth="299.0" />
-                                        <TextField fx:id="addTagsTF" layoutX="77.0" layoutY="139.0" prefHeight="26.0" prefWidth="299.0" />
+                                        <TextField fx:id="addNameTF" layoutX="77.0" layoutY="101.0" prefHeight="26.0" prefWidth="285.0" />
+                                        <TextField fx:id="addTagsTF" layoutX="77.0" layoutY="139.0" prefHeight="26.0" prefWidth="286.0" />
                                         <TableView fx:id="addTableView" layoutX="431.0" layoutY="14.0" prefHeight="576.0" prefWidth="310.0">
                                             <columns>
                                                 <TableColumn fx:id="addNameColumn" prefWidth="75.0" text="Name" />
@@ -85,9 +85,17 @@
                                                 <Font name="System Bold" size="18.0" />
                                             </font>
                                         </Label>
-                                        <ChoiceBox fx:id="choiceBoxTags" layoutX="77.0" layoutY="176.0" prefHeight="26.0" prefWidth="299.0" />
+                                        <ChoiceBox fx:id="choiceBoxTags" layoutX="77.0" layoutY="176.0" prefHeight="26.0" prefWidth="286.0" />
                                         <Button layoutX="370.0" layoutY="139.0" mnemonicParsing="false" onAction="#addTagButton" prefHeight="26.0" prefWidth="58.0" text="Add tag" />
-                                        <TextField fx:id="displayTagsTF" layoutX="77.0" layoutY="219.0" prefHeight="26.0" prefWidth="298.0" />
+                                        <TextField fx:id="displayTagsTF" layoutX="77.0" layoutY="219.0" prefHeight="26.0" prefWidth="287.0" />
+                              <ChoiceBox fx:id="attrChoiceBox" layoutX="16.0" layoutY="324.0" prefHeight="26.0" prefWidth="234.0" />
+                              <Label layoutX="16.0" layoutY="297.0" text="Select Attribute ">
+                                 <font>
+                                    <Font name="System Bold" size="18.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="attrTF" layoutX="16.0" layoutY="370.0" prefHeight="26.0" prefWidth="233.0" />
+                              <Button layoutX="270.0" layoutY="371.0" mnemonicParsing="false" onAction="#addValueToAttribute" text="Add Value" />
                                     </children>
                                 </AnchorPane>
                             </top></BorderPane>
