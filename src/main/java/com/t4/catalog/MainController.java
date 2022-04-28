@@ -1,9 +1,6 @@
 package com.t4.catalog;
 
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -37,11 +34,6 @@ public class MainController implements Initializable {
 
     private ArrayList<String> itemTagName=new ArrayList<>();
 
-    @FXML
-    private Button editItemName;
-
-    @FXML private Button editButton;
-    @FXML private Button deleteButton;
     @FXML private BorderPane mainBorder ;
     @FXML private TreeView<String> treeView ;
     @FXML private TableColumn<Attribute,String> attributeNameColumn;
@@ -54,6 +46,10 @@ public class MainController implements Initializable {
     @FXML private ChoiceBox<String> choiceBox;
     @FXML private TableView<Attribute> addTableView ;
     @FXML ChoiceBox<String> choiceBoxTags;
+    @FXML private ChoiceBox<String> attrChoiceBox;
+    @FXML private TextField attrTF;
+
+
 
     @FXML
     private TextField TextField;
@@ -77,23 +73,8 @@ public class MainController implements Initializable {
         this.typeController = new TypeController();
     }
 
-
-
-
-    public BorderPane getMainBorder() {
-        return mainBorder;
-    }
-
-    public Scene getTypeScene() {
-        return typeScene;
-    }
-
     public void setTypeScene(Scene typeScene) {
         this.typeScene = typeScene;
-    }
-
-    public Stage getTypeStage() {
-        return typeStage;
     }
 
     public void setTypeStage(Stage typeStage) {
@@ -185,6 +166,7 @@ public class MainController implements Initializable {
                 String selectedItem = choiceBox.getSelectionModel().getSelectedItem();
                 ItemType itemType = null;
                 addTableView.getItems().clear();
+                attrChoiceBox.getItems().clear();
                 for (int i = 0; i < itemTypes.size() ; i++) {
                     if(itemTypes.get(i).getName().equals(selectedItem)){
                         itemType = itemTypes.get(i);
@@ -194,6 +176,7 @@ public class MainController implements Initializable {
                 if(itemType != null){
                     for (int i = 0; i < itemType.getAttributesName().size(); i++) {
                         addTableView.getItems().add(new Attribute(itemType.getAttributesName().get(i),""));
+                        attrChoiceBox.getItems().add(itemType.getAttributesName().get(i));
 
                     }
                     addTableView.refresh();
@@ -214,11 +197,7 @@ public class MainController implements Initializable {
                             if(choiceBoxTags.getSelectionModel().getSelectedItem().equals(selectedTags)){
                                 selectedTags=choiceBoxTags.getSelectionModel().getSelectedItem();
                             }
-
-
-
                         }
-
 
                         displayTagsTF.setEditable(false);
                         displayTagsTF.setText(String.valueOf(itemTagName));
@@ -233,26 +212,6 @@ public class MainController implements Initializable {
 
         //   deleteButton.setOnAction(actionEvent -> onDelete());
 
-
-
-
-        addTableView.setEditable(true);
-        addValueColumn.setEditable(true);
-
-        addValueColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-
-        addValueColumn.setOnEditCommit(event -> {
-            new EventHandler<TableColumn.CellEditEvent<Attribute, String>>() {
-                @Override
-                public void handle(TableColumn.CellEditEvent<Attribute, String> t) {
-                    Attribute attribute = t.getRowValue();
-                    attribute.setAttributeValue(t.getNewValue());
-
-                }
-            };
-
-
-        });
         treeView.setOnMouseClicked(event -> {
             if(event.getClickCount() == 2){
                 if(treeView.getSelectionModel().getSelectedItem().getClass() == ItemType.class){
@@ -274,19 +233,9 @@ public class MainController implements Initializable {
 
 
 
+
+
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
    /* public void onDelete(){
         TreeItem<String> selectedItem =treeView.getSelectionModel().getSelectedItem();
@@ -352,13 +301,22 @@ public class MainController implements Initializable {
 
         }
 
+        addNameTF.clear();
+        addTagsTF.clear();
+        displayTagsTF.clear();
+        addTableView.getItems().clear();
+        attrChoiceBox.getItems().clear();
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information Dialog");
+        alert.setHeaderText(null);
+        alert.setContentText("Item has been added to the "+item.getFolder().getName());
+        alert.showAndWait();
+
+
 
 
     }
-
-
-
-
 
     @FXML
     public void newTypeButton(){
@@ -369,6 +327,7 @@ public class MainController implements Initializable {
             typeScene = new Scene(root);
             typeStage = new Stage();
             typeStage.setScene(typeScene);
+
             typeStage.show();
             typeController = loader.getController();
             typeController.setMainController(this);
@@ -394,20 +353,16 @@ public class MainController implements Initializable {
         }
     }
     @FXML
-    void deleteButtonClicked(ActionEvent event) {
-
+    void deleteButtonClicked() {
         //Removes the selected Item
         TreeItem<String> t =treeView.getSelectionModel().getSelectedItem();
 
         t.getParent().getChildren().remove(t);
 
-
     }
     @FXML
-    void editButtonClicked(ActionEvent event) {
-        // Hümay's method
+    void editButtonClicked() {
         ItemType selectedItem = (ItemType) treeView.getSelectionModel().getSelectedItem();
-
 
         Dialog<Void> dialog = new Dialog<>();
         DialogPane pane = new DialogPane();
@@ -419,12 +374,9 @@ public class MainController implements Initializable {
         TextField name = new TextField();
         content.add(name, 1, 0);
         List<TextField> textFields = new ArrayList<>();
-        Alert alert = new Alert(Alert.AlertType.ERROR);
 
 
         dialog.setTitle("edit type");
-
-
 
         name.setText(selectedItem.getName());
 
@@ -438,7 +390,6 @@ public class MainController implements Initializable {
         }
         dialog.showAndWait();
 
-
         selectedItem.setName(name.getText());
         ArrayList<String> fieldTypes = new ArrayList<>();
 
@@ -447,10 +398,9 @@ public class MainController implements Initializable {
         }
         selectedItem.setAttributesName(fieldTypes);
 
-
     }
     @FXML
-    void editItemNameButtonClicked(ActionEvent event) {
+    void editItemNameButtonClicked() {
         int index = treeView.getSelectionModel().getSelectedIndex();
 
         TreeItem<String> t =treeView.getSelectionModel().getSelectedItem();
@@ -466,8 +416,41 @@ public class MainController implements Initializable {
         treeView.getTreeItem(index).setValue(TextField.getText());
         treeView.refresh();
 
-
         tableView.refresh();
+    }
+
+    @FXML
+    public void addValueToAttribute() {
+        if(attrChoiceBox.getValue()==null){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error");
+            alert.setContentText("Please select an attribute");
+            alert.showAndWait();
+            return;
+        }
+        if(attrTF.getText().isBlank()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Value is empty");
+            alert.setContentText("Please enter value");
+            alert.showAndWait();
+            return;
+        }
+        String attr = attrChoiceBox.getSelectionModel().getSelectedItem();
+        for (int i = 0; i < addTableView.getItems().size() ; i++) {
+            if (addTableView.getItems().get(i).getAttributeName().equals(attr)){
+                Attribute attribute = addTableView.getItems().get(i);
+                attribute.setAttributeValue(attrTF.getText());
+                addTableView.getItems().remove(i);
+                addTableView.getItems().add(i,attribute);
+                addTableView.refresh();
+                attrTF.clear();
+                return;
+
+            }
+        }
+
     }
 
 
