@@ -45,8 +45,6 @@ public class TypeController implements Initializable {
 
     @FXML
     public void addChoice(){
-
-
         String name = typeTF.getText();
 
         for (int i = 0; i <mainController.getItemTypesName().size() ; i++) {
@@ -69,8 +67,6 @@ public class TypeController implements Initializable {
             itemType.getAttributesName().add(tableView.getItems().get(i).getAttributeName());
 
         }
-
-
         mainController.getItemTypes().add(itemType);
         mainController.getChoiceBox().getItems().add(name);
         this.stage.close();
