@@ -11,10 +11,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="484.0" prefWidth="594.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.t4.catalog.EditController">
    <children>
-      <TableView fx:id="tableView" layoutX="-7.0" prefHeight="484.0" prefWidth="326.0">
+      <TableView fx:id="tableView" editable="true" layoutX="-7.0" prefHeight="484.0" prefWidth="326.0">
         <columns>
           <TableColumn fx:id="nameColumn" prefWidth="75.0" text="Attribute Name" />
           <TableColumn fx:id="valueColumn" prefWidth="75.0" text="Attribute Value" />
@@ -41,18 +40,10 @@
          </font>
       </Label>
       <TextField fx:id="nameTF" layoutX="333.0" layoutY="108.0" prefHeight="26.0" prefWidth="186.0" />
-      <TextField fx:id="attributeTF" layoutX="334.0" layoutY="211.0" prefHeight="26.0" prefWidth="186.0" />
-      <ChoiceBox fx:id="attributeCB" layoutX="334.0" layoutY="177.0" prefHeight="26.0" prefWidth="186.0" />
-      <Label layoutX="334.0" layoutY="143.0" prefHeight="27.0" prefWidth="164.0" text="Select Attribute">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-      </Label>
-      <Button layoutX="535.0" layoutY="211.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="35.0" text="+" />
       <ButtonBar layoutX="381.0" layoutY="430.0" prefHeight="40.0" prefWidth="200.0">
          <buttons>
-            <Button mnemonicParsing="false" text="Save" />
-            <Button mnemonicParsing="false" text="Cancel" />
+            <Button fx:id="saveButton" mnemonicParsing="false" onAction="#saveButtonClicked" text="Save" />
+            <Button fx:id="CancelButton" mnemonicParsing="false" onAction="#CancelButtonClicked" text="Cancel" />
          </buttons>
       </ButtonBar>
       <Button layoutX="536.0" layoutY="285.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="52.0" text="Add" />

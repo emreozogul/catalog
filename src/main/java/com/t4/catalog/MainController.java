@@ -384,6 +384,10 @@ public class MainController implements Initializable {
             editController = loader.getController();
             editController.setMainController(this);
             editController.setStage(typeStage);
+            for (int i = 0; i < item.getAttributes().size(); i++) {
+                editController.getTableView().getItems().add(item.getAttributes().get(i));
+            }
+            editController.getTableView().refresh();
 
             this.setEditController(editController);
 
