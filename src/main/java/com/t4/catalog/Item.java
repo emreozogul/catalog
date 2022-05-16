@@ -2,9 +2,10 @@ package com.t4.catalog;
 
 import javafx.scene.control.TreeItem;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Item  extends TreeItem<String> {
+public class Item  extends TreeItem<String> implements Serializable {
 
 
 

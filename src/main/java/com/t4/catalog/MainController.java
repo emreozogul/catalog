@@ -2,6 +2,8 @@ package com.t4.catalog;
 
 
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -11,12 +13,12 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+
+import java.io.*;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class MainController implements Initializable {
-
 
 
     private Scene typeScene;
@@ -27,35 +29,60 @@ public class MainController implements Initializable {
     private TypeController typeController;
     private EditController editController;
     private Item item;
-    private ArrayList<String> itemTypesName= new ArrayList<>();
+    private ArrayList<String> itemTypesName = new ArrayList<>();
     private ArrayList<ItemType> itemTypes = new ArrayList<>();
 
-    private ArrayList<String> itemTagName=new ArrayList<>();
+    private ArrayList<String> itemTagName = new ArrayList<>();
 
-    @FXML private BorderPane mainBorder ;
-    @FXML private TreeView<String> treeView ;
-    @FXML private TableColumn<Attribute,String> attributeNameColumn;
-    @FXML private TableColumn<Attribute,String> attributeValueColumn;
-    @FXML private TableView<Attribute> tableView ;
-    @FXML private TextField addNameTF;
-    @FXML private TextField addTagsTF;
-    @FXML private TableColumn<Attribute,String> addNameColumn ;
-    @FXML private TableColumn<Attribute,String> addValueColumn ;
-    @FXML private ChoiceBox<String> choiceBox;
-    @FXML private TableView<Attribute> addTableView ;
-    @FXML ChoiceBox<String> choiceBoxTags;
-    @FXML private ChoiceBox<String> attrChoiceBox;
-    @FXML private TextField attrTF;
+    @FXML
+    private Button savetreebutton;
 
+    @FXML
+    private Button loadtree;
+
+    private int count=0;
+    @FXML
+    private Button searchButton;
+
+    @FXML
+    private TextField searchTextField;
+
+    @FXML
+    private BorderPane mainBorder;
+    @FXML
+    private TreeView<String> treeView;
+    @FXML
+    private TableColumn<Attribute, String> attributeNameColumn;
+    @FXML
+    private TableColumn<Attribute, String> attributeValueColumn;
+    @FXML
+    private TableView<Attribute> tableView;
+    @FXML
+    private TextField addNameTF;
+    @FXML
+    private TextField addTagsTF;
+    @FXML
+    private TableColumn<Attribute, String> addNameColumn;
+    @FXML
+    private TableColumn<Attribute, String> addValueColumn;
+    @FXML
+    private ChoiceBox<String> choiceBox;
+    @FXML
+    private TableView<Attribute> addTableView;
+    @FXML
+    ChoiceBox<String> choiceBoxTags;
+    @FXML
+    private ChoiceBox<String> attrChoiceBox;
+    @FXML
+    private TextField attrTF;
 
 
     @FXML
     private TextField TextField;
 
 
-    @FXML private TextField displayTagsTF;
-
-
+    @FXML
+    private TextField displayTagsTF;
 
 
     public ArrayList<ItemType> getItemTypes() {
@@ -85,9 +112,13 @@ public class MainController implements Initializable {
         return choiceBox;
     }
 
-    public ChoiceBox<String> getChoiceBoxTags(){return choiceBoxTags;}
+    public ChoiceBox<String> getChoiceBoxTags() {
+        return choiceBoxTags;
+    }
 
-    public ArrayList<String> getItemTagName(){return itemTagName;}
+    public ArrayList<String> getItemTagName() {
+        return itemTagName;
+    }
 
     public void setEditScene(Scene editScene) {
         this.editScene = editScene;
@@ -98,10 +129,10 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    public void addTagButton(){
+    public void addTagButton() {
         String name = addTagsTF.getText();
-        for (int i = 0; i <getItemTagName().size() ; i++) {
-            if(getItemTagName().get(i).equals(name)){
+        for (int i = 0; i < getItemTagName().size(); i++) {
+            if (getItemTagName().get(i).equals(name)) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
                 alert.setHeaderText("Tag already exists");
@@ -112,7 +143,7 @@ public class MainController implements Initializable {
         }
         getItemTagName().add(name);
 
-        for (int i = 0; i <tableView.getItems().size() ; i++) {
+        for (int i = 0; i < tableView.getItems().size(); i++) {
             itemTagName.add(tableView.getItems().get(i).getAttributeName());
         }
 
@@ -129,15 +160,12 @@ public class MainController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
 
-
         typeController.init(this);
         editController.init(this);
 
         ItemType root = new ItemType("root", "root");
         treeView.setRoot(root);
         treeView.setShowRoot(false);
-
-
 
 
         attributeNameColumn.setCellValueFactory(new PropertyValueFactory<>("attributeName"));
@@ -148,40 +176,40 @@ public class MainController implements Initializable {
 
 
         choiceBox.setOnAction(event -> {
-            if(choiceBox.getItems().size()>0) {
-                String selectedItem = choiceBox.getSelectionModel().getSelectedItem();
-                ItemType itemType = null;
-                addTableView.getItems().clear();
-                attrChoiceBox.getItems().clear();
-                for (int i = 0; i < itemTypes.size() ; i++) {
-                    if(itemTypes.get(i).getName().equals(selectedItem)){
-                        itemType = itemTypes.get(i);
+                    if (choiceBox.getItems().size() > 0) {
+                        String selectedItem = choiceBox.getSelectionModel().getSelectedItem();
+                        ItemType itemType = null;
+                        addTableView.getItems().clear();
+                        attrChoiceBox.getItems().clear();
+                        for (int i = 0; i < itemTypes.size(); i++) {
+                            if (itemTypes.get(i).getName().equals(selectedItem)) {
+                                itemType = itemTypes.get(i);
+                            }
+
+                        }
+                        if (itemType != null) {
+                            for (int i = 0; i < itemType.getAttributesName().size(); i++) {
+                                addTableView.getItems().add(new Attribute(itemType.getAttributesName().get(i), ""));
+                                attrChoiceBox.getItems().add(itemType.getAttributesName().get(i));
+
+                            }
+                            addTableView.refresh();
+                        }
+
+
                     }
-
                 }
-                if(itemType != null){
-                    for (int i = 0; i < itemType.getAttributesName().size(); i++) {
-                        addTableView.getItems().add(new Attribute(itemType.getAttributesName().get(i),""));
-                        attrChoiceBox.getItems().add(itemType.getAttributesName().get(i));
-
-                    }
-                    addTableView.refresh();
-                }
-
-
-            }
-        }
         );
 
         choiceBoxTags.setOnAction(event -> {
 
-                    if(choiceBoxTags.getItems().size()>0) {
+                    if (choiceBoxTags.getItems().size() > 0) {
                         String selectedTags = choiceBoxTags.getSelectionModel().getSelectedItem();
                         //itemTagName = null;
 
-                        for (int i = 0; i < itemTagName.size() ; i++) {
-                            if(choiceBoxTags.getSelectionModel().getSelectedItem().equals(selectedTags)){
-                                selectedTags=choiceBoxTags.getSelectionModel().getSelectedItem();
+                        for (int i = 0; i < itemTagName.size(); i++) {
+                            if (choiceBoxTags.getSelectionModel().getSelectedItem().equals(selectedTags)) {
+                                selectedTags = choiceBoxTags.getSelectionModel().getSelectedItem();
                             }
                         }
 
@@ -191,12 +219,11 @@ public class MainController implements Initializable {
                     }
                 }
         );
-        
 
 
         treeView.setOnMouseClicked(event -> {
-            if(event.getClickCount() == 2){
-                if(treeView.getSelectionModel().getSelectedItem().getClass() == ItemType.class){
+            if (event.getClickCount() == 2) {
+                if (treeView.getSelectionModel().getSelectedItem().getClass() == ItemType.class) {
                     return;
                 }
                 Item item = (Item) treeView.getSelectionModel().getSelectedItem();
@@ -205,25 +232,15 @@ public class MainController implements Initializable {
                     tableView.getItems().add(item.getAttributes().get(i));
                 }
                 tableView.refresh();
-        }});
-
-
-
-
-
-
-
-
-
+            }
+        });
 
 
     }
 
 
-
-
     @FXML
-    public void saveButton(){
+    public void saveButton() {
 
         String name = addNameTF.getText();
         String tag = addTagsTF.getText();
@@ -236,15 +253,15 @@ public class MainController implements Initializable {
             }
         }
 
-        if(itemType == null){
+        if (itemType == null) {
             return;
         }
 
 
-        item = new Item(name,name,tag,itemType);
+        item = new Item(name, name, tag, itemType);
 
 
-        for(int i = 0; i < addTableView.getItems().size(); i++){
+        for (int i = 0; i < addTableView.getItems().size(); i++) {
             Attribute attribute = addTableView.getItems().get(i);
             item.addAttribute(attribute);
 
@@ -252,18 +269,18 @@ public class MainController implements Initializable {
 
         ItemType root = (ItemType) treeView.getRoot();
         boolean isExist = false;
-        for (int i = 0; i <root.getChildren().size(); i++) {
+        for (int i = 0; i < root.getChildren().size(); i++) {
             ItemType treeItem = (ItemType) root.getChildren().get(i);
 
 
-            if(treeItem.getValue().equals(itemType.getName())){
+            if (treeItem.getValue().equals(itemType.getName())) {
                 item.setFolder(treeItem);
                 treeItem.getChildren().add(item);
                 isExist = true;
             }
 
         }
-        if(!isExist){
+        if (!isExist) {
             root.getChildren().add(item.getFolder());
             item.getFolder().getChildren().add(item);
 
@@ -279,16 +296,14 @@ public class MainController implements Initializable {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Information Dialog");
         alert.setHeaderText(null);
-        alert.setContentText("Item has been added to the "+item.getFolder().getName());
+        alert.setContentText("Item has been added to the " + item.getFolder().getName());
         alert.showAndWait();
-
-
 
 
     }
 
     @FXML
-    public void newTypeButton(){
+    public void newTypeButton() {
 
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("type.fxml"));
@@ -315,24 +330,26 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    public void showAttribute(){
-        for (int i = 0; i <addTableView.getItems().size() ; i++) {
+    public void showAttribute() {
+        for (int i = 0; i < addTableView.getItems().size(); i++) {
             Attribute attribute = addTableView.getItems().get(i);
-            System.out.println("name :"+attribute.getAttributeName()+" value :"+attribute.getAttributeValue());
+            System.out.println("name :" + attribute.getAttributeName() + " value :" + attribute.getAttributeValue());
         }
     }
+
     @FXML
-    void deleteButtonClicked() {
+    void deleteButtonClicked() throws IOException {
         //Removes the selected Item
-        TreeItem<String> t =treeView.getSelectionModel().getSelectedItem();
+        TreeItem<String> t = treeView.getSelectionModel().getSelectedItem();
 
         t.getParent().getChildren().remove(t);
+
 
     }
 
     @FXML
     public void addValueToAttribute() {
-        if(attrChoiceBox.getValue()==null){
+        if (attrChoiceBox.getValue() == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Error");
@@ -340,7 +357,7 @@ public class MainController implements Initializable {
             alert.showAndWait();
             return;
         }
-        if(attrTF.getText().isBlank()) {
+        if (attrTF.getText().isBlank()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Value is empty");
@@ -349,12 +366,12 @@ public class MainController implements Initializable {
             return;
         }
         String attr = attrChoiceBox.getSelectionModel().getSelectedItem();
-        for (int i = 0; i < addTableView.getItems().size() ; i++) {
-            if (addTableView.getItems().get(i).getAttributeName().equals(attr)){
+        for (int i = 0; i < addTableView.getItems().size(); i++) {
+            if (addTableView.getItems().get(i).getAttributeName().equals(attr)) {
                 Attribute attribute = addTableView.getItems().get(i);
                 attribute.setAttributeValue(attrTF.getText());
                 addTableView.getItems().remove(i);
-                addTableView.getItems().add(i,attribute);
+                addTableView.getItems().add(i, attribute);
                 addTableView.refresh();
                 attrTF.clear();
                 return;
@@ -366,8 +383,8 @@ public class MainController implements Initializable {
 
 
     @FXML
-    public void editButton(){
-        if(treeView.getSelectionModel().getSelectedItem()==null || treeView.getSelectionModel().getSelectedItem().getClass()==ItemType.class){
+    public void editButton() {
+        if (treeView.getSelectionModel().getSelectedItem() == null || treeView.getSelectionModel().getSelectedItem().getClass() == ItemType.class) {
             return;
         }
 
@@ -397,10 +414,118 @@ public class MainController implements Initializable {
         }
     }
 
+    static private void saveParentAndChildren(TreeItem<String> root, String parent) throws FileNotFoundException {
+
+
+        System.out.println( root.getValue());
+        try(PrintWriter writer = new PrintWriter(new FileOutputStream(new File("tree_structure.txt"),true ))){
+            writer.println(root.getValue() + "=" + parent);
+
+            for(TreeItem<String> child: root.getChildren()){
+                if(child.getChildren().isEmpty()){
+                    writer.println(child.getValue() + "=" + root.getValue());
+                } else {
+                    saveParentAndChildren(child, root.getValue());
+                }
+            }
+        }
+        catch (FileNotFoundException ex) {
+
+        }
 
 
 
+    }
+
+    static private TreeItem loadTree() {
+        TreeItem root = null;
+        HashMap<String, String> treeStructure = new HashMap();
+
+        File file = new File("tree_structure.txt");
+        try(BufferedReader br = new BufferedReader(new FileReader(file)))
+        {
+            String st;
+            while((st=br.readLine()) != null){
+                String[] splitLine = st.split("=");
+                treeStructure.put(splitLine[0], splitLine[1]);
+            }
+
+            root = getChildrenNodes(treeStructure, "root").get(0);
+            List<TreeItem> parentItems = getChildrenNodes(treeStructure, root.getValue().toString());
+
+            if(parentItems.size() > 0)
+            {
+                root.getChildren().addAll(parentItems);
+                for(TreeItem item : parentItems)
+                {
+                    item.getChildren().addAll(getChildrenNodes(treeStructure, item.getValue().toString()));
+                }
+            }
+        }
+        catch (IOException ex) {
+
+        }
+
+        return root;
+    }
+
+    static private List<TreeItem> getChildrenNodes(HashMap<String, String> hMap, String parent) {
+
+        List<TreeItem> children = new ArrayList();
+
+        for (Map.Entry<String, String> entry : hMap.entrySet())
+        {
+
+            if(entry.getValue().equals(parent))
+            {
+                System.out.println(entry.getKey() + "/" + entry.getValue());
+                children.add(new TreeItem(entry.getKey()));
+            }
+        }
+
+        return children;
+    }
+        @FXML
+        void savetreebuttonclicked (ActionEvent event) throws FileNotFoundException {
 
 
 
-}
+            File file = new File("tree_structure.txt");
+            if(file.exists()) {
+                file.delete();
+            }
+            saveParentAndChildren(treeView.getRoot(), "Items");
+        }
+
+        @FXML
+        void loadtreeclicked (ActionEvent event){
+
+
+        treeView.setRoot(loadTree());
+        }
+    @FXML
+    void searchButtonClicked(ActionEvent event) {
+handleSearch(treeView.getRoot(),searchTextField.getText().trim());
+    }
+
+    @FXML
+    void searchTextFieldClicked(ActionEvent event) {
+        count=0;
+    }
+    protected int handleSearch(TreeItem<String> rootItem, String text) {
+        int count=0;
+        if(rootItem!=null&&rootItem.getValue().equals(text)){
+            treeView.getSelectionModel().select(rootItem);
+            return 1;
+        }
+        if(rootItem!=null&&!rootItem.getChildren().isEmpty()){
+            for(TreeItem<String> treeItem: rootItem.getChildren()){
+                count+=handleSearch(treeItem, text);
+                if(this.count==count){
+                    break;
+                }
+            }
+        }
+        return count;
+    }
+    }
