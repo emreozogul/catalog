@@ -11,7 +11,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.io.*;
@@ -36,6 +38,9 @@ public class MainController implements Initializable {
 
     @FXML
     private Button savetreebutton;
+
+    @FXML
+    private Menu help;
 
     @FXML
     private Button loadtree;
@@ -530,5 +535,24 @@ handleSearch(treeView.getRoot(),searchTextField.getText().trim());
             }
         }
         return count;
+    }
+
+    @FXML
+    void aboutclicked(ActionEvent event) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Help");
+        alert.setHeaderText("How to Use");
+        alert.setContentText(
+                "Add Item: You can add items with using Add Item tab.\n" +
+                "Show Items: These items will automatically show in the display section.\n" +
+                "Show Attributes: By double clicking the items on the treeview, you can see these items attibutes.\n" +
+                "Edit Attribute: Select item, click edit to edit attributes by rewriting value at the column value." +
+                        " The other buttons are not working.\n" +
+                        "Search Item: You can search item by name. Write item name you want to search in the text field.\n" +
+                        "Delete Item: Click the item and use delete button.\n" +
+                        "Load Tree and Save Tree Buttons are not working.");
+
+        alert.showAndWait();
+
     }
     }
