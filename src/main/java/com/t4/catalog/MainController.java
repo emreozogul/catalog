@@ -505,12 +505,15 @@ public class MainController implements Initializable {
         }
     @FXML
     void searchButtonClicked(ActionEvent event) {
+        count++;
+
 handleSearch(treeView.getRoot(),searchTextField.getText().trim());
     }
 
     @FXML
     void searchTextFieldClicked(ActionEvent event) {
-        count=0;
+
+
     }
     protected int handleSearch(TreeItem<String> rootItem, String text) {
         int count=0;
