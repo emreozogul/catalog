@@ -18,6 +18,7 @@ import javafx.stage.Stage;
 
 import java.io.*;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.util.*;
 
 public class MainController implements Initializable {
@@ -55,7 +56,7 @@ public class MainController implements Initializable {
     @FXML
     private BorderPane mainBorder;
     @FXML
-    private TreeView<String> treeView;
+    public TreeView<String> treeView;
     @FXML
     private TableColumn<Attribute, String> attributeNameColumn;
     @FXML
@@ -80,6 +81,8 @@ public class MainController implements Initializable {
     private ChoiceBox<String> attrChoiceBox;
     @FXML
     private TextField attrTF;
+
+    private ArrayList<Item> items = new ArrayList<>();
 
 
     @FXML
@@ -133,9 +136,15 @@ public class MainController implements Initializable {
         this.editStage = editStage;
     }
 
+    private Set<String> tags;
     @FXML
     public void addTagButton() {
         String name = addTagsTF.getText();
+        tags= new HashSet<>();
+        tags.add(name);
+
+
+       /*
         for (int i = 0; i < getItemTagName().size(); i++) {
             if (getItemTagName().get(i).equals(name)) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -153,6 +162,7 @@ public class MainController implements Initializable {
         }
 
         getChoiceBoxTags().getItems().add(name);
+        */
     }
 
 
@@ -206,7 +216,7 @@ public class MainController implements Initializable {
                 }
         );
 
-        choiceBoxTags.setOnAction(event -> {
+        /*choiceBoxTags.setOnAction(event -> {
 
                     if (choiceBoxTags.getItems().size() > 0) {
                         String selectedTags = choiceBoxTags.getSelectionModel().getSelectedItem();
@@ -224,7 +234,7 @@ public class MainController implements Initializable {
                     }
                 }
         );
-
+*/
 
         treeView.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2) {
@@ -248,7 +258,7 @@ public class MainController implements Initializable {
     public void saveButton() {
 
         String name = addNameTF.getText();
-        String tag = addTagsTF.getText();
+        // String tag = addTagsTF.getText();
 
         String typeName = choiceBox.getSelectionModel().getSelectedItem();
         ItemType itemType = null;
@@ -263,7 +273,9 @@ public class MainController implements Initializable {
         }
 
 
-        item = new Item(name, name, tag, itemType);
+        item = new Item(name, name, tags, itemType);
+
+        items.add(item);
 
 
         for (int i = 0; i < addTableView.getItems().size(); i++) {
@@ -293,7 +305,7 @@ public class MainController implements Initializable {
 
         addNameTF.clear();
         addTagsTF.clear();
-        displayTagsTF.clear();
+        //displayTagsTF.clear();
         addTableView.getItems().clear();
         attrChoiceBox.getItems().clear();
 
@@ -347,9 +359,16 @@ public class MainController implements Initializable {
         //Removes the selected Item
         TreeItem<String> t = treeView.getSelectionModel().getSelectedItem();
 
-        t.getParent().getChildren().remove(t);
+        deleteMethod(t);
 
+        items.remove(t);
 
+    }
+    void deleteMethod(TreeItem<String> t){
+
+        TreeItem<String> temp = t;
+
+        temp.getParent().getChildren().remove(t);
     }
 
     @FXML
@@ -490,29 +509,88 @@ public class MainController implements Initializable {
 
         return children;
     }
-        @FXML
-        void savetreebuttonclicked (ActionEvent event) throws FileNotFoundException {
+    @FXML
+    void savetreebuttonclicked (ActionEvent event) throws IOException {
+
+           /* FileWriter w = new FileWriter("tree_structure.txt");
+            Formatter f = new Formatter(w);
+
+            for (Item item : items) {
+                StringBuilder s = new StringBuilder(item.getName() + ", " + item.getFolder().getName() + ", ");
+
+                for (int i = 0; i < item.getAttributesValues().size(); i++) {
+                    s.append(item.getAttributesValues().get(i)).append(", ");
+                }
+
+                for (String tag : item.getTags()) {
+                    s.append("#").append(tag).append(", ");
+                }
+                s = new StringBuilder(s.substring(0, s.length() - 2));
+                f.format("%s%n", s);
+            }
+            f.close();
+            w.close();*/
+            savetreee(treeView.getRoot(),"root");
+
+    }
+    void savetreee(TreeItem<String> root, String parent){
+        System.out.println("Current Parent :" + root.getValue());
+        try(PrintWriter writer = new PrintWriter(new FileOutputStream(new File("tree_structure.txt"),true /* append = true */))){
+            writer.println(root.getValue() + "=" + parent);
+
+            for(TreeItem<String> child: root.getChildren()){
+                if(child.getChildren().isEmpty()){
+                    writer.println(child.getValue() + "=" + root.getValue());
+                } else {
+                    saveParentAndChildren(child, root.getValue());
+                }
+            }
+        }
+        catch (FileNotFoundException ex) {
+
+        }
+    }
 
 
+    @FXML
+    TreeItem<String> loadtreeclicked (ActionEvent event){
+            TreeItem root = null;
+            HashMap<String, String> treeStructure = new HashMap();
 
             File file = new File("tree_structure.txt");
-            if(file.exists()) {
-                file.delete();
+            try(BufferedReader br = new BufferedReader(new FileReader(file)))
+            {
+                String st;
+                while((st=br.readLine()) != null){
+                    String[] splitLine = st.split(",");
+                    treeStructure.put(splitLine[0], splitLine[1]);
+                }
+
+                root = getChildrenNodes(treeStructure, "root").get(0);//This gets the root node
+                List<TreeItem> parentItems = getChildrenNodes(treeStructure, root.getValue().toString());//get the root's children
+                //if the root has children get every child's children if they have some.
+                if(parentItems.size() > 0)
+                {
+                    root.getChildren().addAll(parentItems);
+                    for(TreeItem item : parentItems)
+                    {
+                        item.getChildren().addAll(getChildrenNodes(treeStructure, item.getValue().toString()));
+                    }
+                }
             }
-            saveParentAndChildren(treeView.getRoot(), "Items");
+            catch (IOException ex) {
+
+            }
+
+            return root;
         }
 
-        @FXML
-        void loadtreeclicked (ActionEvent event){
 
-
-        treeView.setRoot(loadTree());
-        }
     @FXML
     void searchButtonClicked(ActionEvent event) {
         count++;
 
-handleSearch(treeView.getRoot(),searchTextField.getText().trim());
+        handleSearch(treeView.getRoot(),searchTextField.getText().trim());
     }
 
     @FXML
@@ -544,9 +622,9 @@ handleSearch(treeView.getRoot(),searchTextField.getText().trim());
         alert.setHeaderText("How to Use");
         alert.setContentText(
                 "Add Item: You can add items with using Add Item tab.\n" +
-                "Show Items: These items will automatically show in the display section.\n" +
-                "Show Attributes: By double clicking the items on the treeview, you can see these items attibutes.\n" +
-                "Edit Attribute: Select item, click edit to edit attributes by rewriting value at the column value." +
+                        "Show Items: These items will automatically show in the display section.\n" +
+                        "Show Attributes: By double clicking the items on the treeview, you can see these items attibutes.\n" +
+                        "Edit Attribute: Select item, click edit to edit attributes by rewriting value at the column value." +
                         " The other buttons are not working.\n" +
                         "Search Item: You can search item by name. Write item name you want to search in the text field.\n" +
                         "Delete Item: Click the item and use delete button.\n" +
@@ -555,4 +633,4 @@ handleSearch(treeView.getRoot(),searchTextField.getText().trim());
         alert.showAndWait();
 
     }
-    }
+}

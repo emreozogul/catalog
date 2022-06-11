@@ -4,12 +4,16 @@ import javafx.scene.control.TreeItem;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Item  extends TreeItem<String> implements Serializable {
 
 
 
-    private String tag;
+    //private String tag;
+
+    private Set<String> tags;
     private String name;
 
     private ItemType folder;
@@ -17,13 +21,14 @@ public class Item  extends TreeItem<String> implements Serializable {
     private ArrayList<String> attributesValues;
 
 
-    public Item(String value, String name, String tag  , ItemType folder) {
+    public Item(String value, String name, Set<String> tags , ItemType folder) {
         super(value);
-        this.tag = tag;
+        // this.tag = tag;
         this.name = name;
         this.folder = folder;
         this.attributes = new ArrayList<>();
         this.attributesValues = new ArrayList<>();
+        this.tags=tags;
 
 
     }
@@ -36,15 +41,21 @@ public class Item  extends TreeItem<String> implements Serializable {
         this.folder = folder;
     }
 
-    public String getTag() {
-        return tag;
+    /*  public String getTag() {
+          return tag;
+      }
+
+      public void setTag(String tag) {
+          this.tag = tag;
+      }
+  */
+    public Set<String> getTags() {
+        return tags;
     }
 
-    public void setTag(String tag) {
-        this.tag = tag;
+    public void setTags(Set<String> tags) {
+        this.tags = tags;
     }
-
-
 
     public void setAttributes(ArrayList<Attribute> attributes) {
         this.attributes = attributes;
@@ -71,7 +82,7 @@ public class Item  extends TreeItem<String> implements Serializable {
     @Override
     public String toString() {
         return "Item{" + name +
-                ", tag='" + tag + '\'' +
+                ", tag='"  + '\'' +
                 ", folder=" + folder +
                 ", attributes=" + attributes +
                 '}';

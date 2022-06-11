@@ -31,15 +31,10 @@
                             </accelerator></MenuItem>
                     </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Edit">
-                    <items>
-                        <MenuItem mnemonicParsing="false" text="Delete" />
-                    </items>
-                </Menu>
                 <Menu mnemonicParsing="false" text="Help">
-               <items>
-                  <MenuItem mnemonicParsing="false" onAction="#aboutclicked" text="About" />
-               </items>
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#aboutclicked" text="About" />
+                    </items>
                 </Menu>
             </menus>
         </MenuBar>
@@ -48,7 +43,7 @@
                 <Tab text="Add Item">
                     <content>
                         <BorderPane fx:id="mainBorder">
-                     <bottom>
+                            <bottom>
                                 <AnchorPane prefHeight="662.0" prefWidth="762.0" BorderPane.alignment="CENTER">
                                     <children>
                                         <ChoiceBox fx:id="choiceBox" layoutX="83.0" layoutY="92.0" prefHeight="26.0" prefWidth="219.0" />
@@ -80,32 +75,23 @@
                                                 <Font name="System Bold" size="18.0" />
                                             </font>
                                         </Label>
-                                        <Label layoutX="26.0" layoutY="479.0" text="Tags">
+                                        <Button layoutX="301.0" layoutY="402.0" mnemonicParsing="false" onAction="#addTagButton" prefHeight="26.0" prefWidth="67.0" text="New Tag" />
+                                        <ChoiceBox fx:id="attrChoiceBox" layoutX="81.0" layoutY="250.0" prefHeight="26.0" prefWidth="215.0" />
+                                        <Label layoutX="79.0" layoutY="211.0" prefHeight="27.0" prefWidth="181.0" text="Select Attribute ">
                                             <font>
                                                 <Font name="System Bold" size="18.0" />
                                             </font>
                                         </Label>
-                                        <ChoiceBox fx:id="choiceBoxTags" layoutX="84.0" layoutY="480.0" prefHeight="26.0" prefWidth="218.0" />
-                                        <Button layoutX="301.0" layoutY="402.0" mnemonicParsing="false" onAction="#addTagButton" prefHeight="26.0" prefWidth="67.0" text="New Tag" />
-                                        <TextField fx:id="displayTagsTF" layoutX="85.0" layoutY="518.0" prefHeight="26.0" prefWidth="219.0" />
-                              <ChoiceBox fx:id="attrChoiceBox" layoutX="81.0" layoutY="250.0" prefHeight="26.0" prefWidth="215.0" />
-                              <Label layoutX="79.0" layoutY="211.0" prefHeight="27.0" prefWidth="181.0" text="Select Attribute ">
-                                 <font>
-                                    <Font name="System Bold" size="18.0" />
-                                 </font>
-                              </Label>
-                              <TextField fx:id="attrTF" layoutX="81.0" layoutY="296.0" prefHeight="26.0" prefWidth="216.0" />
-                              <Button layoutX="307.0" layoutY="296.0" mnemonicParsing="false" onAction="#addValueToAttribute" prefHeight="26.0" prefWidth="73.0" text="Add Value" />
-                              <Button layoutX="314.0" layoutY="480.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="49.0" text="Add" />
-                              <Label layoutX="81.0" layoutY="362.0" prefHeight="27.0" prefWidth="104.0" text="New Tag">
-                                 <font>
-                                    <Font name="System Bold" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Button layoutX="314.0" layoutY="518.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="50.0" text="Clear" />
+                                        <TextField fx:id="attrTF" layoutX="81.0" layoutY="296.0" prefHeight="26.0" prefWidth="216.0" />
+                                        <Button layoutX="307.0" layoutY="296.0" mnemonicParsing="false" onAction="#addValueToAttribute" prefHeight="26.0" prefWidth="73.0" text="Add Value" />
+                                        <Label layoutX="81.0" layoutY="362.0" prefHeight="27.0" prefWidth="104.0" text="New Tag">
+                                            <font>
+                                                <Font name="System Bold" size="18.0" />
+                                            </font>
+                                        </Label>
                                     </children>
                                 </AnchorPane>
-                     </bottom></BorderPane>
+                            </bottom></BorderPane>
                     </content>
                 </Tab>
                 <Tab text="Display">
@@ -129,18 +115,13 @@
                                     </columnResizePolicy>
                                 </TableView>
                                 <TextArea layoutX="12.0" layoutY="508.0" prefHeight="136.0" prefWidth="422.0" />
-                        <Button fx:id="savetreebutton" layoutX="501.0" layoutY="610.0" mnemonicParsing="false" onAction="#savetreebuttonclicked" text="Save Tree" />
-                        <Button fx:id="loadtree" layoutX="435.0" layoutY="610.0" mnemonicParsing="false" onAction="#loadtreeclicked" text="Load Tree" />
-                        <TextField fx:id="searchTextField" layoutX="12.0" layoutY="14.0" onAction="#searchTextFieldClicked" />
-                        <Button fx:id="searchButton" layoutX="192.0" layoutY="14.0" mnemonicParsing="false" onAction="#searchButtonClicked" text="Search" />
+                                <Button fx:id="savetreebutton" layoutX="501.0" layoutY="610.0" mnemonicParsing="false" onAction="#savetreebuttonclicked" text="Save Tree" />
+                                <Button fx:id="loadtree" layoutX="435.0" layoutY="610.0" mnemonicParsing="false" onAction="#loadtreeclicked" text="Load Tree" />
+                                <TextField fx:id="searchTextField" layoutX="12.0" layoutY="14.0" onAction="#searchTextFieldClicked" />
+                                <Button fx:id="searchButton" layoutX="192.0" layoutY="14.0" mnemonicParsing="false" onAction="#searchButtonClicked" text="Search" />
                             </children></AnchorPane>
                     </content>
                 </Tab>
-            <Tab text="Search">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-              </content>
-            </Tab>
             </tabs>
         </TabPane>
     </children>
